@@ -3,7 +3,7 @@
 import socket
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = "127.0.0.1"
+host = "edenmutt.ddns.net"
 port = 5555
 s.connect((host,port))
 
@@ -13,8 +13,8 @@ def ts(str):
    data = s.recv(1024).decode()
    print (data)
 
-while 1:
-   r = input('Enter your message: ')
+while(r!="!"):
+   r = input('Enter your message (! to quit): ')
    ts(r)
 
 s.close ()
