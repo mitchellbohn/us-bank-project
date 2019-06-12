@@ -1,4 +1,3 @@
-#! /usr/bin/python3
 import Crypto
 from Crypto.PublicKey import RSA
 import socket
