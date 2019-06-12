@@ -32,9 +32,18 @@ while (i<length):
 i=0
 
 #Encrypt Message
-while(i<length):
-    encrypted[i] = publickey.encrypt(asc[i],length)
-    i=i+1
+#while(i<length):
+print (asc)
+strmsg="9"
+while (i < length):
+    if len(str(asc[i]))<3:
+        strmsg = strmsg + '0' + str(asc[i])
+    else:
+        strmsg = strmsg + str(asc[i])
+print(strmsg)
+strmsg = int(strmsg)
+encrypted = publickey.encrypt(asc,length)
+    #i=i+1
 
 print(encrypted)
 
