@@ -9,15 +9,25 @@ port = 5555
 s.connect((host,port))
 
 def ts(str):
-   s.send(r.encode())
-   data = ''
-   data = s.recv(1024).decode()
-   print (data)
+    s.send(encrypted.encode())
+    data = ''
+    data = s.recv(1024).decode()
+    print(data)
 
+pubkey = s.recv(1024)
+print(pubkey)
+
+key = RSA.importKey(pubkey)
+print(key)
 
 r=''
 while r!='!':
-   r = input('Enter your message (! to quit): ')
-   ts(r)
+    r = input('Enter your message (! to quit): ')
+    r = int(r)
+    print(r)
+    encrypt = key.encrypt(r, 32)
+    encrypted = str(encrypt[0])
+    print(encrypted)
+    ts(encrypted)
 
 s.close ()

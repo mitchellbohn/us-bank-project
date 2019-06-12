@@ -9,8 +9,6 @@ random_generator = Random.new().read
 key = RSA.generate(4096, random_generator)
 
 publickey = key.publickey()
-print(publickey)
-print(key)
 
 #Get Message
 message = input("Enter Message: \n")

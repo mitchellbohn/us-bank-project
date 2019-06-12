@@ -8,7 +8,7 @@ key = RSA.generate(1024, random_generator) #generate pub and priv key
 
 pubk = key.publickey() # pub key export for exchange
 
-encrypted = pubk.encrypt('message to encrypt', 34)
+encrypted = pubk.encrypt('message to encrypt', 1024)
 #message to encrypt is in the above line 'encrypt this message'
 
 print('encrypted message:', encrypted) #ciphertext
