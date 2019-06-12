@@ -31,19 +31,38 @@ while (i<length):
 
 i=0
 
+#Convert to one num
+num = ""
+for i in range(len(asc)):
+    if(len(str(asc[i])) == 2):
+        num = num + '0' + str(asc[i])
+    elif(len(str(asc[i])) == 1):
+        num = num + "00" + str(asc[i])
+    else:
+        num = num + str(asc[i])
+
+
+print (num)
+
+
+
 #Encrypt Message
-while(i<length):
-    encrypted[i] = publickey.encrypt(asc[i],length)
-    i=i+1
+#while(i<length):
+    #encrypted[i] = publickey.encrypt(asc[i],length)
+    #i=i+1
+
+encrypted = publickey.encrypt(int(num), len(num))
 
 print(encrypted)
 
 i=0
 
 #Decrypt Message
-while(i<length):
-    decrypted[i] = key.decrypt(encrypted[i])
-    i=i+1
+#while(i<length):
+#    decrypted[i] = key.decrypt(encrypted[i])
+#    i=i+1
+
+decrypted = key.decrypt(encrypted)
 
 print(decrypted)
 
@@ -54,8 +73,10 @@ while(i<length):
     decoded_string[i]=chr(asc[i])
     i=i+1
 
+
 #Puts Character Back Together
 decoded_message="".join(decoded_string)
+
 
 #Prints Decoded Message
 print(decoded_message)
