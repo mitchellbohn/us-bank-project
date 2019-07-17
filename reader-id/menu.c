@@ -1,10 +1,4 @@
-/* 
- * Copyright (C) 2011, Digital Persona, Inc.
- *
- * This file is a part of sample code for the UareU SDK 2.x.
- */
-
-#include "menu.h" 
+#include "menu.h"
 
 #include <errno.h>
 #include <stdlib.h>
@@ -34,13 +28,13 @@ void Menu_Destroy(menu_t* pMenu){
 int Menu_AddItem(menu_t* pMenu, int nItemValue, const char* szItem){
 	if(NULL == pMenu || NULL == szItem) return EINVAL;
 	if(9 <= pMenu->nItemsCnt) return ERANGE;
-	
+
 	size_t nItem = 0;
 	for(; nItem < pMenu->nItemsCnt; nItem++){
 		if(pMenu->pItems[nItem].nValue != nItemValue) continue;
 		break;
 	}
-	
+
 	if(nItem < pMenu->nItemsCnt){
 		strncpy(pMenu->pItems[nItem].szItem, szItem, sizeof(pMenu->pItems[nItem].szItem));
 	}
@@ -58,21 +52,21 @@ int Menu_AddItem(menu_t* pMenu, int nItemValue, const char* szItem){
 
 int Menu_DoModal(menu_t* pMenu, int* pItemValue){
 	if(NULL == pMenu || NULL == pItemValue) return EINVAL;
-	
+
 	while(1){
 		printf("\n\n\n%s\n\n", pMenu->szTitle);
 		int i = 0;
 		for(i = 0; i < pMenu->nItemsCnt; i++){
 			printf("  %d: %s\n", i + 1, pMenu->pItems[i].szItem);
 		}
-		
+
 		if(2 < pMenu->nItemsCnt) printf("\nEnter %d - %d", 1, pMenu->nItemsCnt);
 		else if(2 == pMenu->nItemsCnt) printf("\nEnter 1, 2");
 		else  printf("\nEnter 1");
 		if(pMenu->nType & MENU_TYPE_BACK) printf(", or \'B\' to go back");
 		if(pMenu->nType & MENU_TYPE_EXIT) printf(", or \'E\' to exit");
 		printf(": ");
-		
+
 		char szBuffer[100];
 		fgets(szBuffer, sizeof(szBuffer), stdin);
 		char ch = szBuffer[0];
@@ -89,7 +83,7 @@ int Menu_DoModal(menu_t* pMenu, int* pItemValue){
 			*pItemValue = -2;
 			return 0;
 		}
-		
+
 		printf("Invalid choice: %c", ch);
 	}
 }

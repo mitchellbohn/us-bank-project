@@ -1,6 +1,6 @@
-EXE_NAME = UareUSample
+EXE_NAME = readerID
 
-SDK_INCLUDES = ../../../Include
+SDK_INCLUDES = /opt/Crossmatch/urusdk-linux/Include
 OUT_DIR ?= .
 LIB_OUT_DIR ?= /usr/lib
 
@@ -17,13 +17,13 @@ else
 endif
 
 
-OBJS = sample.o menu.o helpers.o selection.o verification.o identification.o enrollment.o
+OBJS = sample.o menu.o helpers.o selection.o
 
 all: $(OBJS)
 	mkdir -p $(OUT_DIR)
 	$(CC) $(OBJS) -Wl,--no-as-needed $(LDFLAGS) -o $(OUT_DIR)/$(EXE_NAME)
 
-all_debug:all 
+all_debug:all
 
 clean:
 	rm -f $(OUT_DIR)/$(EXE_NAME) *.o *~
