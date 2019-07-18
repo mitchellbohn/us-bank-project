@@ -17,7 +17,7 @@ else
 endif
 
 
-OBJS = sample.o menu.o helpers.o selection.o
+OBJS = sample.o menu.o selection.o
 
 all: $(OBJS)
 	mkdir -p $(OUT_DIR)
