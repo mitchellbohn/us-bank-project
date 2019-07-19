@@ -1,10 +1,15 @@
+/*
+ * Copyright (C) 2011, Digital Persona, Inc.
+ *
+ * This file is a part of sample code for the UareU SDK 2.x.
+ */
+
+#include "helpers.h"
 #include "menu.h"
 #include "selection.h"
+#include "enrollment.h"
 
 #include <dpfpdd.h>
-#include <dpfj.h>
-#include <dpfj_compression.h>
-#include <dpfj_quality.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -12,7 +17,6 @@
 #include <string.h>
 #include <signal.h>
 #include <locale.h>
-#include <sys/time.h>
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,54 +32,24 @@ int main(int argc, char** argv){
 
 	//initialize capture library
 	int result = dpfpdd_init();
-	DPFPDD_DEV hReader = NULL; //handle of the selected reader
-	char szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader
+	if(DPFPDD_SUCCESS != result) print_error("dpfpdd_init()", result);
+	else{
+		DPFPDD_DEV hReader = NULL; //handle of the selected reader
+		char szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader
 
-	menu_t* pMenu = NULL;
-	int res = Menu_Create("ReaderID", MENU_TYPE_EXIT, &pMenu);
-	if(0 == res) res = Menu_AddItem(pMenu, 101, "Select new reader (not selected)");
-	if(0 == res){
-		//main menu loop
-		int bStop = 0;
-		while(!bStop){
-			int nChoice = 0;
-			Menu_DoModal(pMenu, &nChoice);
+		hReader = SelectAndOpenReader(szReader, sizeof(szReader));
+		Enrollment(hReader);
 
-			switch(nChoice){
-				case 101: //select reader
-					//close reader if opened
-					if(NULL != hReader){
-						result = dpfpdd_close(hReader);
-						hReader = NULL;
-					}
-					//open new reader
-					hReader = SelectAndOpenReader(szReader, sizeof(szReader));
-					if(NULL != hReader){
-						char szItem[MAX_DEVICE_NAME_LENGTH + 20];
-						snprintf(szItem, sizeof(szItem), "Select new reader (selected: %s)", szReader);
-						Menu_AddItem(pMenu, 101, szItem);
-					}
-					else{
-						Menu_AddItem(pMenu, 101, "Select new reader (not selected)");
-					}
-					break;
-				case -2: //exit
-					bStop = 1;
-					break;
-			}
+		//close reader
+		if(NULL != hReader){
+			result = dpfpdd_close(hReader);
+			if(DPFPDD_SUCCESS != result) print_error("dpfpdd_close()", result);
+			hReader = NULL;
 		}
 
-		Menu_Destroy(pMenu);
+		//relese capture library
+		dpfpdd_exit();
 	}
-
-	//close reader
-	if(NULL != hReader){
-		result = dpfpdd_close(hReader);
-		hReader = NULL;
-	}
-
-	//relese capture library
-	dpfpdd_exit();
 
 	return 0;
 }

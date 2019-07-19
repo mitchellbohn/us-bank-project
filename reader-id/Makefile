@@ -4,7 +4,7 @@ SDK_INCLUDES = /opt/Crossmatch/urusdk-linux/Include
 OUT_DIR ?= .
 LIB_OUT_DIR ?= /usr/lib
 
-CCFLAGS = -g -Wall -I$(SDK_INCLUDES) $(CFLAGS)
+CCFLAGS = -c -fPIC -g -Wall -I$(SDK_INCLUDES) $(CFLAGS)
 
 # $(call getlink, linkname)
 getlink = $(shell cygpath -wm `readlink -f $(1)`)
@@ -17,7 +17,7 @@ else
 endif
 
 
-OBJS = sample.o menu.o selection.o
+OBJS = sample.o menu.o helpers.o selection.o enrollment.o
 
 all: $(OBJS)
 	mkdir -p $(OUT_DIR)

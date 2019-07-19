@@ -8,6 +8,5 @@
 
 #include <dpfpdd.h>
 
-#include <stddef.h>
+void Enrollment(DPFPDD_DEV hReader);
 
-DPFPDD_DEV SelectAndOpenReader(char* szReader, size_t nReaderLen);

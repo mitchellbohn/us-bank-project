@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2011, Digital Persona, Inc.
  *
  * This file is a part of sample code for the UareU SDK 2.x.
@@ -29,16 +29,16 @@ int main(int argc, char** argv){
 	sigset_t sigmask;
 	sigfillset(&sigmask);
 	pthread_sigmask(SIG_BLOCK, &sigmask, NULL);
-	
+
 	setlocale(LC_ALL, "");
-	
+
 	//initialize capture library
 	int result = dpfpdd_init();
 	if(DPFPDD_SUCCESS != result) print_error("dpfpdd_init()", result);
 	else{
 		DPFPDD_DEV hReader = NULL; //handle of the selected reader
 		char szReader[MAX_DEVICE_NAME_LENGTH]; //name of the selected reader
-		
+
 		menu_t* pMenu = NULL;
 		int res = Menu_Create("UareU SDK 2.x sample application (verification, identification, enrollment)", MENU_TYPE_EXIT, &pMenu);
 		if(0 == res) res = Menu_AddItem(pMenu, 101, "Select new reader (not selected)");
@@ -51,7 +51,7 @@ int main(int argc, char** argv){
 			while(!bStop){
 				int nChoice = 0;
 				Menu_DoModal(pMenu, &nChoice);
-				
+
 				switch(nChoice){
 					case 101: //select reader
 						//close reader if opened
@@ -100,22 +100,21 @@ int main(int argc, char** argv){
 						break;
 				}
 			}
-			
+
 			Menu_Destroy(pMenu);
 		}
 		else print_error("Menu_Create() or Menu_AddItem()", res);
-		
+
 		//close reader
 		if(NULL != hReader){
 			result = dpfpdd_close(hReader);
 			if(DPFPDD_SUCCESS != result) print_error("dpfpdd_close()", result);
 			hReader = NULL;
 		}
-		
+
 		//relese capture library
-		dpfpdd_exit(); 
+		dpfpdd_exit();
 	}
-	
+
 	return 0;
 }
-
