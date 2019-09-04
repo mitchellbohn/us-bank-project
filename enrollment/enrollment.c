@@ -1,0 +1,44 @@
+#include <stdio.h>
+
+int input();
+void output(float);
+int main() {
+  float result;
+  int choice, num;
+  string user;
+
+  printf("1)add user");
+  printf("2)delete user");
+  printf("3)edit user");
+  printf("Please enter a number to continue: ");
+  choice = input();
+
+  switch (choice) {
+    case 1: {
+      printf("enter name of new client");
+      printf("assign account number");
+      printf("assign routing number");
+      printf("client has been given check numbers 0001-0100");
+      printf("create a valid pin")
+    }
+    case 2: {
+      printf("enter name for client to remove data");
+      printf("enter account pin");
+    }
+    case 3: {
+      printf("enter name of client");
+    }
+    default:
+      printf("wrong input...\n");
+  }
+  return 0;
+}
+int input() {
+  int number;
+  scanf("%d", &number);
+  return (number);
+}
+
+void output(float number) {
+  printf("%f", number);
+}
