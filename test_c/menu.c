@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <sqlite3.h>
 
 static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
@@ -16,7 +17,7 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
    return 0;
 }
 
-void initDB(){
+void openDB(){
 	sqlite3 *db;
 	char *zErrMsg = 0;
 	int rc;
@@ -24,12 +25,12 @@ void initDB(){
 	
 	rc = sqlite3_open("bank.db", &db);
 
-				if( rc ) {
-					fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
-					return;
-				} else {
-					fprintf(stderr, "Opened database successfully\n");
-				}
+	if( rc ) {
+		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+		return;
+	} else {
+		fprintf(stderr, "Opened database successfully\n");
+	}
 	
 	/* Create SQL statement */
 	sql = "CREATE TABLE ACCT_HOLDERS("  \
@@ -48,61 +49,63 @@ void initDB(){
 	} else {
 		fprintf(stdout, "Table created successfully\n");
 	}
-	sqlite3_close(db);
 	return;
 }
 
 void addAccount() {
-	char *fname=NULL;
-	char *lname=NULL;
-	char *account=NULL;
-	char *routing=NULL;
-	char *ans=NULL;
+	char fname[5];
+	char lname[50];
+	char account[12];
+	char routing[9];
 	printf("First Name: ");
-	scanf("%s", fname);
+	gets(fname);
+	printf(fname);
 	printf("Last Name: ");
 	scanf("%s", lname);
 	printf("Account Number: ");
 	scanf("%s", account);
+	printf("%s \n", account);
 	printf("Routing Number: ");
 	scanf("%s", routing);
-	printf("add another routing number?(y/n): ");
-	scanf("%s", ans);
+}
+
+void editAccount() {
+	return;
 }
 
 int main() {
 	int choice;
-	int loop = 1;
+	bool loop = true;
 
-	while(loop == 1) {
+	while(loop == true) {
 		printf("Please select a menu item: \n");
-		printf("1. Add Account \n");
-		printf("2. Delete Account \n");
+		printf("1. Create/Open Database With Table \n");
+		printf("2. Add Account \n");
 		printf("3. Edit Account \n");
-		printf("4. Create Database With Table \n");
+		printf("4. Delete Account \n");
 		printf("5. exit program \n");
-		scanf("%d",&choice); //replace with fgets
+		scanf("%d",&choice); //replace with gets
 
 		switch(choice) {
 			case 1: {
-				addAccount();
+				openDB();
 				break;
 			}
 			case 2: {
-				printf("Delete Account \n");
+				addAccount();
 				break;
 			}
 			case 3: {
-				printf("Edit Account \n");
+				editAccount();
 				break;
 			}
 			case 4: {
-				initDB();
+				printf("Delete Account \n");
 				break;
 			}
 			case 5: {
 				printf("Exiting program... \n");
-				loop = 0;
+				loop = false;
 				break;
 			}
 			default: {
